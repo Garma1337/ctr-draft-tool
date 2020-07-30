@@ -1,0 +1,10 @@
+{
+    "require": {
+        "doctrine/dbal": "^2.10",
+        "nesbot/carbon": "^2.36",
+        "smarty/smarty": "^3.1",
+        "ext-json": "*",
+        "ext-pdo": "*",
+        "symfony/console": "^5.1"
+    }
+}

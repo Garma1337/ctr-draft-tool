@@ -1,0 +1,91 @@
+.navbar img, .action-new button img, .action-index button img, .action-draftList button img {
+    margin-top: -3px;
+}
+
+.main-body {
+    margin-top: 1rem;
+}
+
+.action-show.main-body.container {
+    max-width: 1600px;
+}
+
+.action-draftList .table th {
+    border-top: 0;
+}
+
+.action-new .alert .btn:first-child {
+    margin: 0.5rem 0.5rem 0.5rem 0;
+}
+
+.submit-button {
+    margin-top: 1rem;
+}
+
+.action-show .row {
+    justify-content: center;
+}
+
+.info-container {
+    margin-bottom: 2rem;
+}
+
+.turn-alert {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.ban-grid, .pick-grid, .track-grid {
+    text-align: center;
+}
+
+.ban-grid .overlay {
+    color: red;
+    top: -57px;
+    left: 48px;
+    font-weight: bold;
+    font-size: 90px;
+}
+
+.pick-grid img, .ban-grid img {
+    margin: 0.125rem;
+}
+
+.pick-grid .placeholder, .ban-grid .placeholder {
+    border: 0.25rem solid #aaa;
+}
+
+.banned-by-team-a, .picked-by-team-a {
+    border: 0.25rem solid #f87070;
+}
+
+.banned-by-team-b, .picked-by-team-b {
+    border: 0.25rem solid #75f870;
+}
+
+.pick-grid .overlay {
+    background-color: #333;
+    color: #eee;
+    padding: 5px 10px 5px 10px;
+    top: 21px;
+    left: 6px;
+    font-size: 10px;
+}
+
+.track-selection-container label {
+    font-weight: bold;
+    font-size: 1.5rem;
+    padding-top: 0;
+}
+
+.track-grid .overlay {
+    background-color: #333;
+    color: #eee;
+    padding: 5px 10px 5px 10px;
+    top: 37px;
+    left: 7px;
+}
+
+.track-grid .img-thumbnail {
+    margin: 0.125rem;
+}
