@@ -83,7 +83,7 @@
                         src="{$router->getBaseUrl()}images/spacer.png"
                         alt
                         width="{$selectionThumbnailSize}"
-                        class="placeholder rounded"
+                        class="rounded{if ($i - 1) % 2 === 0} banned-by-team-a{else} banned-by-team-b{/if}"
                     >
                 {/for}
             {/if}
@@ -115,7 +115,7 @@
                         src="{$router->getBaseUrl()}images/spacer.png"
                         alt
                         width="{$selectionThumbnailSize}"
-                        class="placeholder rounded"
+                        class="rounded{if $i % 4 === 0 || $i % 4 === 1} banned-by-team-a{else} banned-by-team-b{/if}"
                     >
                 {/for}
             {/if}
