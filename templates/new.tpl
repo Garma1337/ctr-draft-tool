@@ -10,13 +10,13 @@
                 <div class="input-group-append">
                     <a href="" target="_blank">
                         <button type="button" class="btn btn-outline-secondary">
-                            <img src="{$router->getBaseUrl()}images/icons-black/external-link.svg" alt>
+                            <img src="{$router->getBaseUrl()}web/images/icons-black/external-link.svg" alt>
                             {$translator->translate('action.new.openLinkButtonLabel')}
                         </button>
                     </a>
 
                     <button type="button" class="btn btn-outline-secondary" data-clipboard-target="#inputSpectatorUrl">
-                        <img src="{$router->getBaseUrl()}images/icons-black/copy.svg" alt>
+                        <img src="{$router->getBaseUrl()}web/images/icons-black/copy.svg" alt>
                         {$translator->translate('action.new.copyButtonLabel')}
                     </button>
                 </div>
@@ -31,13 +31,13 @@
                 <div class="input-group-append">
                     <a href="" target="_blank">
                         <button type="button" class="btn btn-outline-secondary">
-                            <img src="{$router->getBaseUrl()}images/icons-black/external-link.svg" alt>
+                            <img src="{$router->getBaseUrl()}web/images/icons-black/external-link.svg" alt>
                             {$translator->translate('action.new.openLinkButtonLabel')}
                         </button>
                     </a>
 
                     <button type="button" class="btn btn-outline-secondary" data-clipboard-target="#inputTeamAUrl">
-                        <img src="{$router->getBaseUrl()}images/icons-black/copy.svg" alt>
+                        <img src="{$router->getBaseUrl()}web/images/icons-black/copy.svg" alt>
                         {$translator->translate('action.new.copyButtonLabel')}
                     </button>
                 </div>
@@ -52,13 +52,13 @@
                 <div class="input-group-append">
                     <a href="" target="_blank">
                         <button type="button" class="btn btn-outline-secondary">
-                            <img src="{$router->getBaseUrl()}images/icons-black/external-link.svg" alt>
+                            <img src="{$router->getBaseUrl()}web/images/icons-black/external-link.svg" alt>
                             {$translator->translate('action.new.openLinkButtonLabel')}
                         </button>
                     </a>
 
                     <button type="button" class="btn btn-outline-secondary" data-clipboard-target="#inputTeamBUrl">
-                        <img src="{$router->getBaseUrl()}images/icons-black/copy.svg" alt>
+                        <img src="{$router->getBaseUrl()}web/images/icons-black/copy.svg" alt>
                         {$translator->translate('action.new.copyButtonLabel')}
                     </button>
                 </div>
@@ -138,7 +138,7 @@
     <div class="form-group row">
         <div class="col-sm-3">
             <button type="submit" class="btn btn-primary btn-lg submit-button">
-                <img src="{$router->getBaseUrl()}images/icons-white/check.svg" width="24">
+                <img src="{$router->getBaseUrl()}web/images/icons-white/check.svg" width="24">
                 {$translator->translate('action.new.buttonSubmitLabel')}
             </button>
         </div>

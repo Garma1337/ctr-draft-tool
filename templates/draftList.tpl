@@ -25,7 +25,7 @@
                         <td>
                             <a href="{$router->generateUrl('show', ['id' => $draft.id])}">
                                 <button class="btn btn-primary">
-                                    <img src="{$router->getBaseUrl()}images/icons-white/zoom-in.svg" alt>
+                                    <img src="{$router->getBaseUrl()}web/images/icons-white/zoom-in.svg" alt>
                                     {$translator->translate('action.draftList.buttonShowLabel')}
                                 </button>
                             </a>

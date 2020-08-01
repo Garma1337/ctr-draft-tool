@@ -6,7 +6,7 @@
 
 <a href="{$router->generateUrl('new')}">
     <button class="btn btn-primary">
-        <img src="{$router->getBaseUrl()}images/icons-white/play.svg" alt>
+        <img src="{$router->getBaseUrl()}web/images/icons-white/play.svg" alt>
         {$translator->translate('action.index.getStartedButtonLabel')}
     </button>
 </a>

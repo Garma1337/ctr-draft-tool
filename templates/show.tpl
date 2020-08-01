@@ -41,7 +41,7 @@
             {foreach from=$draft.bannedTracks key=key item=track}
                 <span class="img-container position-relative">
                     <img
-                        src="{$router->getBaseUrl()}images/tracks/{$track.trackId}.png"
+                        src="{$router->getBaseUrl()}web/images/tracks/{$track.trackId}.jpg"
                         alt
                         width="{$selectionThumbnailSize}"
                         class="rounded"
@@ -54,7 +54,7 @@
             {if $draft.bannedTracks|count < ($draft.bans * 2)}
                 {for $i=1 to ($draft.bans * 2 - count($draft.bannedTracks)) step 1}
                     <img
-                        src="{$router->getBaseUrl()}images/spacer.png"
+                        src="{$router->getBaseUrl()}web/images/spacer.png"
                         alt
                         width="{$selectionThumbnailSize}"
                         class="placeholder rounded"
@@ -67,7 +67,7 @@
             {foreach from=$draft.pickedTracks key=key item=track}
                 <span class="img-container position-relative">
                     <img
-                        src="{$router->getBaseUrl()}images/tracks/{$track.trackId}.png"
+                        src="{$router->getBaseUrl()}web/images/tracks/{$track.trackId}.jpg"
                         alt
                         width="{$selectionThumbnailSize}"
                         class="rounded"
@@ -80,7 +80,7 @@
             {if $draft.pickedTracks|count < ($draft.picks * 2)}
                 {for $i=1 to ($draft.picks * 2 - count($draft.pickedTracks)) step 1}
                     <img
-                        src="{$router->getBaseUrl()}images/spacer.png"
+                        src="{$router->getBaseUrl()}web/images/spacer.png"
                         alt
                         width="{$selectionThumbnailSize}"
                         class="placeholder rounded"
@@ -117,7 +117,7 @@
 
                     <span{if !$track.isAvailable} class="track-unavailable"{/if} data-form-id="updateDraftForm{$track.id}"{if $teamId && $teamId === $currentTurn && $track.isAvailable} style="cursor: pointer"{/if}>
                         <span class="img-container position-relative" data-track="{$track.name}">
-                            <img src="{$router->getBaseUrl()}images/tracks/{$track.id}.png" alt width="{$trackGridThumbnailSize}" class="img-thumbnail rounded">
+                            <img src="{$router->getBaseUrl()}web/images/tracks/{$track.id}.jpg" alt width="{$trackGridThumbnailSize}" class="img-thumbnail rounded">
 
                             <div class="overlay position-absolute">{$track.name}</div>
                         </span>

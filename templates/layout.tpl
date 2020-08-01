@@ -26,7 +26,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-xl main-container">
                 <a class="navbar-brand" href="{$router->generateUrl('index')}">
-                    <img src="{$router->getBaseUrl()}images/icons-white/grid.svg" alt> CTR Draft Tool v2
+                    <img src="{$router->getBaseUrl()}web/images/icons-white/grid.svg" alt> CTR Draft Tool v2
                 </a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -38,14 +38,14 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item{if $action === 'new'} active{/if}">
                             <a class="nav-link" href="{$router->generateUrl('new')}">
-                                <img src="{$router->getBaseUrl()}images/icons-white/plus.svg" alt>
+                                <img src="{$router->getBaseUrl()}web/images/icons-white/plus.svg" alt>
                                 {$translator->translate('action.index.navigationCreateDraft')}
                             </a>
                         </li>
 
                         <li class="nav-item{if $action === 'draftList'} active{/if}">
                             <a class="nav-link" href="{$router->generateUrl('draftList')}">
-                                <img src="{$router->getBaseUrl()}images/icons-white/align-justify.svg" alt>
+                                <img src="{$router->getBaseUrl()}web/images/icons-white/align-justify.svg" alt>
                                 {$translator->translate('action.index.navigationDraftList')}
                             </a>
                         </li>
@@ -54,7 +54,7 @@
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarLanguageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="{$router->getBaseUrl()}images/icons-white/flag.svg" alt>
+                                <img src="{$router->getBaseUrl()}web/images/icons-white/flag.svg" alt>
                                 {$translator->translate('action.index.navigationLanguage')}
                             </a>
 
@@ -69,7 +69,7 @@
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarLanguageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="{$router->getBaseUrl()}images/icons-white/pen-tool.svg" alt>
+                                <img src="{$router->getBaseUrl()}web/images/icons-white/pen-tool.svg" alt>
                                 Theme
                             </a>
 
