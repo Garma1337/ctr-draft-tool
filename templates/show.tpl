@@ -13,10 +13,10 @@
                     $('#draftTimeoutTimer').text(timeLeft);
 
                     if (timeLeft <= 0) {
+                        localStorage.removeItem('draft.timeLeft');
+
                         /* Select random track if timeout was reached */
                         $('form#updateDraftForm0').submit();
-
-                        localStorage.removeItem('draft.timeLeft');
                     }
                 }, 1000);
             });
