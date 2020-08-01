@@ -63,6 +63,14 @@ class Request
     }
     
     /**
+     * @return array
+     */
+    public function getParams(): array
+    {
+        return $this->request;
+    }
+    
+    /**
      * Checks if a certain request parameter is set
      * @param string $key
      * @return bool

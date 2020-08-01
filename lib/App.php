@@ -26,6 +26,12 @@ use Symfony\Component\Console\Application;
 class App
 {
     /**
+     * Themes
+     */
+    public const THEME_LIGHT = 'light';
+    public const THEME_DARK = 'dark';
+    
+    /**
      * @var array
      */
     private static array $services;
@@ -207,6 +213,8 @@ class App
         
         session_start();
         
+        $controller->preDispatch();
         $controller->$actionMethod();
+        $controller->postDispatch();
     }
 }

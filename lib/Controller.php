@@ -33,6 +33,27 @@ class Controller
     }
     
     /**
+     * This method is always executed before every action
+     */
+    public function preDispatch(): void
+    {
+        if ($this->request->has('language')) {
+            $language = $this->request->getParam('language');
+            
+            if (!App::translator()->languageExists($language)) {
+                $_SESSION['language'] = Translator::LANGUAGE_ENGLISH;
+            } else {
+                $_SESSION['language'] = $language;
+            }
+        }
+        
+        if ($this->request->has('theme')) {
+            $theme = $this->request->getParam('theme');
+            $_SESSION['theme'] = $theme;
+        }
+    }
+    
+    /**
      * Index Action
      * @throws SmartyException
      */
@@ -285,19 +306,10 @@ class Controller
     }
     
     /**
-     * Action to switch the language
+     * This method is always executed after every action
      */
-    public function switchLanguageAction(): void
+    public function postDispatch(): void
     {
-        $language = $this->request->getParam('language');
-        
-        if (!App::translator()->languageExists($language)) {
-            $_SESSION['language'] = Translator::LANGUAGE_ENGLISH;
-        } else {
-            $_SESSION['language'] = $language;
-        }
-        
-        $this->redirect('index');
     }
     
     /**
@@ -311,7 +323,10 @@ class Controller
         $this->template->assign([
             'action'        => $action,
             'router'        => App::router(),
-            'translator'    => App::translator()
+            'translator'    => App::translator(),
+            'selectedTheme' => $_SESSION['theme'],
+            'lightTheme'    => App::THEME_LIGHT,
+            'darkTheme'     => App::THEME_DARK,
         ]);
         
         $content = $this->template->fetch($action . '.tpl');
