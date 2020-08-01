@@ -1,26 +1,6 @@
 {if $draft}
     {if $currentPhase !== 'done' && $teamId && $teamId === $currentTurn && $draft.timeout > 0}
-        <script type="text/javascript">
-            $(document).ready(function() {
-                var timeLeft = localStorage.getItem('draft.timeLeft');
-                if (timeLeft === null) {
-                    timeLeft = {$draft.timeout};
-                }
-
-                window.setInterval(function () {
-                    timeLeft--;
-                    localStorage.setItem('draft.timeLeft', timeLeft);
-                    $('#draftTimeoutTimer').text(timeLeft);
-
-                    if (timeLeft <= 0) {
-                        localStorage.removeItem('draft.timeLeft');
-
-                        /* Select random track if timeout was reached */
-                        $('form#updateDraftForm0').submit();
-                    }
-                }, 1000);
-            });
-        </script>
+        <div id="initialTimeout">{$draft.timeout}</div>
     {/if}
 
     {if (!$accessKey || ($teamId && $teamId !== $currentTurn)) && $currentPhase !== 'done'}
@@ -83,7 +63,7 @@
                         src="{$router->getBaseUrl()}images/spacer.png"
                         alt
                         width="{$selectionThumbnailSize}"
-                        class="rounded{if ($i - 1) % 2 === 0} banned-by-team-a{else} banned-by-team-b{/if}"
+                        class="placeholder rounded"
                     >
                 {/for}
             {/if}
@@ -115,7 +95,7 @@
                         src="{$router->getBaseUrl()}images/spacer.png"
                         alt
                         width="{$selectionThumbnailSize}"
-                        class="rounded{if $i % 4 === 0 || $i % 4 === 1} banned-by-team-a{else} banned-by-team-b{/if}"
+                        class="placeholder rounded"
                     >
                 {/for}
             {/if}
@@ -138,7 +118,7 @@
 
             <div class="track-grid">
                 {foreach from=$tracks key=index item=track}
-                    {if $teamId && $teamId === $currentTurn}
+                    {if $teamId && $teamId === $currentTurn && $track.isAvailable}
                         <form method="post" action="{$router->generateUrl('updateDraft')}" id="updateDraftForm{$track.id}" class="d-none">
                             <input type="text" name="teamId" value="{$teamId}">
                             <input type="text" name="accessKey" value="{$accessKey}">
@@ -147,7 +127,7 @@
                         </form>
                     {/if}
 
-                    <span data-form-id="updateDraftForm{$track.id}"{if $teamId && $teamId === $currentTurn} style="cursor: pointer"{/if}>
+                    <span{if !$track.isAvailable} class="track-unavailable"{/if} data-form-id="updateDraftForm{$track.id}"{if $teamId && $teamId === $currentTurn && $track.isAvailable} style="cursor: pointer"{/if}>
                         <span class="img-container position-relative" data-track="{$track.name}">
                             <img src="{$router->getBaseUrl()}images/tracks/{$track.id}.png" alt width="{$trackGridThumbnailSize}" class="img-thumbnail rounded">
 

@@ -89,3 +89,7 @@
 .track-grid .img-thumbnail {
     margin: 0.125rem;
 }
+
+.track-grid .track-unavailable {
+    opacity: 0.25;
+}

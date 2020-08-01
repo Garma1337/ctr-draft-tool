@@ -1,4 +1,4 @@
-// taken from https://j11y.io/javascript/regex-selector-for-jquery/
+/* taken from https://j11y.io/javascript/regex-selector-for-jquery/ */
 jQuery.expr[':'].regex = function(elem, index, match) {
     var matchParams = match[3].split(','),
         validLabels = /^(data|css):/,
@@ -12,32 +12,14 @@ jQuery.expr[':'].regex = function(elem, index, match) {
     return regex.test(jQuery(elem)[attr.method](attr.property));
 }
 
-// main draft tool js functions
+/* main Draft Tool JS functions */
 $(document).ready(function() {
     new ClipboardJS('.btn');
-
-    $('#enableRetroStadium').on('change', function() {
-        if ($(this).is(':checked')) {
-            $('#splitTurboRetro').parent('div').removeClass('d-none');
-        } else {
-            $('#splitTurboRetro').parent('div').addClass('d-none');
-        }
-    });
-
-    $('#inputTrackSearch').on('input', function() {
-        var name = $(this).val();
-
-        if (name.length <= 0) {
-            $('.track-grid .img-container').show();
-        } else {
-            $('.track-grid .img-container').hide();
-            $(':regex(data-track, ' + name + ')').show();
-        }
-    })
 
     var draftCreateForm = $('#draftCrateForm');
     var draftCreateFormSubmitButton = $('#draftCrateForm button[type="submit"]');
 
+    /* Submit a draft */
     draftCreateFormSubmitButton.on('click', function(e) {
         e.preventDefault();
 
@@ -69,10 +51,10 @@ $(document).ready(function() {
                 for (var key in errors) {
                     alertContainer.append(
                         '<div class="alert alert-danger" role="alert">'
-                            + errors[key] +
-                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'
-                                + '<span aria-hidden="true">&times;</span>'
-                            + '</button>'
+                        + errors[key] +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'
+                        + '<span aria-hidden="true">&times;</span>'
+                        + '</button>'
                         + '</div>'
                     );
                 }
@@ -101,6 +83,64 @@ $(document).ready(function() {
         });
     });
 
+    /* Show the "Split Turbo Track and Retro Stadium" option when Retro Stadium is enabled */
+    $('#enableRetroStadium').on('change', function() {
+        if ($(this).is(':checked')) {
+            $('#splitTurboRetro').parent('div').removeClass('d-none');
+        } else {
+            $('#splitTurboRetro').parent('div').addClass('d-none');
+        }
+    });
+
+    /* Draft Timeout */
+    var timeLeft = localStorage.getItem('draft.timeLeft');
+    if (timeLeft === null) {
+        timeLeft = $('#initialTimeout').text();
+    }
+
+    window.setInterval(function () {
+        timeLeft--;
+        localStorage.setItem('draft.timeLeft', timeLeft);
+        $('#draftTimeoutTimer').text(timeLeft);
+
+        if (timeLeft <= 0) {
+            localStorage.removeItem('draft.timeLeft');
+
+            /* Select random track if timeout was reached */
+            $('form#updateDraftForm0').submit();
+        }
+    }, 1000);
+
+    /* Color the border of the placeholders */
+    $('.ban-grid img').each(function(index) {
+        if (index % 2 === 0) {
+            $(this).addClass('banned-by-team-a').removeClass('placeholder');
+        } else {
+            $(this).addClass('banned-by-team-b').removeClass('placeholder');
+        }
+    });
+
+    $('.pick-grid img').each(function(index) {
+        if ((index + 1) % 4 === 0 || (index + 1) % 4 === 1) {
+            $(this).addClass('banned-by-team-a').removeClass('placeholder');
+        } else {
+            $(this).addClass('banned-by-team-b').removeClass('placeholder');
+        }
+    });
+
+    /* Search Tracks in the Track Grid */
+    $('#inputTrackSearch').on('input', function() {
+        var name = $(this).val();
+
+        if (name.length <= 0) {
+            $('.track-grid .img-container').show();
+        } else {
+            $('.track-grid .img-container').hide();
+            $(':regex(data-track, ' + name + ')').show();
+        }
+    });
+
+    /* Submit a track selection */
     $('.track-grid > span').on('click', function() {
         var formId = $(this).data('form-id');
 

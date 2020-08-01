@@ -343,6 +343,16 @@ class Draft
     }
     
     /**
+     * Returns a list of all existing tracks
+     * @return array
+     */
+    public function getExistingTracks(): array
+    {
+        $query = 'SELECT * FROM tracks';
+        return App::db()->executeQuery($query)->fetchAll();
+    }
+    
+    /**
      * Bans a track
      * @param int $draftId
      * @param int $trackId

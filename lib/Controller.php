@@ -73,19 +73,36 @@ class Controller
                 $teamId = App::draft()->getTeamIdbyAccessKey($draftId, $accessKey);
             }
             
-            $tracks = App::draft()->getAvailableTracks($draftId);
+            $existingTracks = App::draft()->getExistingTracks();
+            $availableTracks = App::draft()->getAvailableTracks($draftId);
+            
+            /* Bad performance */
+            foreach ($existingTracks as $index => $existingTrack) {
+                $isAvailable = false;
+                
+                foreach ($availableTracks as $availableTrack) {
+                    if ($availableTrack['id'] === $existingTrack['id']) {
+                        $isAvailable = true;
+                        
+                        false;
+                    }
+                }
+                
+                $existingTracks[$index]['isAvailable'] = $isAvailable;
+            }
             
             /* Add random track to the selection */
-            $tracks[] = [
-                'id'    => 0,
-                'name'  => 'Random'
+            $existingTracks[] = [
+                'id'            => 0,
+                'name'          => 'Random',
+                'isAvailable'   => true
             ];
             
             $this->template->assign([
                 'id'                        => $draftId,
                 'accessKey'                 => $accessKey,
                 'draft'                     => $draft,
-                'tracks'                    => $tracks,
+                'tracks'                    => $existingTracks,
                 'teamId'                    => $teamId,
                 'selectionThumbnailSize'    => 150,
                 'trackGridThumbnailSize'    => 250,
