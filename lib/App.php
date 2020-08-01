@@ -63,6 +63,17 @@ class App
     }
     
     /**
+     * Returns a config value
+     * @param string $path
+     * @return mixed
+     */
+    public static function config(string $path)
+    {
+        $config = include __DIR__ . '/../config.php';
+        return Arr::path($config, $path);
+    }
+    
+    /**
      * @return Connection
      * @throws DBALException
      */
@@ -72,13 +83,7 @@ class App
             return self::$services['db'];
         }
         
-        $db = DriverManager::getConnection([
-            'dbname'        => 'draft_tool',
-            'user'          => 'test',
-            'password'      => 'test',
-            'host'          => 'localhost',
-            'driver'        => 'pdo_mysql'
-        ]);
+        $db = DriverManager::getConnection(self::config('db'));
         
         self::$services['db'] = $db;
         

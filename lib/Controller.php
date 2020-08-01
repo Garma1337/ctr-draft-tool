@@ -263,7 +263,7 @@ class Controller
                 App::draft()->pickTrack($draftId, $trackId, $postedTeamId);
             }
             
-            header('Location: ' . App::router()->generateUrl('show', ['id' => $draftId, 'accessKey' => $accessKey]));
+            $this->redirect('show', ['id' => $draftId, 'accessKey' => $accessKey]);
         } else {
             echo json_encode(['error' => 'Invalid request method']);
         }
@@ -315,7 +315,6 @@ class Controller
     protected function redirect(string $action, array $params = []): void
     {
         $url = App::router()->generateUrl($action, $params);
-        
         header('Location: ' . $url, true, 301);
     }
 }

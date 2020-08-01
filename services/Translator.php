@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace DraftTool\Services;
 
+use DraftTool\Lib\App;
+use DraftTool\Lib\FileSystem;
 use InvalidArgumentException;
 
 /**
@@ -73,13 +75,11 @@ class Translator
     public function getLanguages(): array
     {
         $languages = [];
+        $languageFiles = FileSystem::getFilesInDirectory($this->translationDir);
         
-        foreach (scandir($this->translationDir) as $translationFilename) {
-            if ($translationFilename !== '.' && $translationFilename !== '..') {
-                $splittedFilename = explode('.', $translationFilename);
-                
-                $languages[] = $splittedFilename[0];
-            }
+        foreach ($languageFiles as $languageFile) {
+            $splittedFilename = explode('.', $languageFile);
+            $languages[] = $splittedFilename[0];
         }
         
         return $languages;
@@ -91,13 +91,13 @@ class Translator
      */
     public function getCurrentLanguage(): string
     {
-        $getCurrentLanguage = $_SESSION['language'] ?? '';
+        $currentLanguage = $_SESSION['language'] ?? '';
         
-        if (!$this->languageExists($getCurrentLanguage)) {
-            /* English is the default language */
-            $getCurrentLanguage = self::LANGUAGE_ENGLISH;
+        if (!$this->languageExists($currentLanguage)) {
+            /* Fallback to default language */
+            $currentLanguage = App::config('defaultLanguage');
         }
         
-        return $getCurrentLanguage;
+        return $currentLanguage;
     }
 }

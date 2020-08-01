@@ -6,6 +6,7 @@ namespace DraftTool\Services;
 
 use Carbon\Carbon;
 use DraftTool\Lib\App;
+use DraftTool\Lib\FileSystem;
 use DraftTool\Lib\MigrationInterface;
 
 /**
@@ -43,7 +44,7 @@ class MigrationManager
     public function getPendingMigrations(): array
     {
         $pendingMigrations = [];
-        $migrationFiles = $this->getFilesInDirectory($this->directory);
+        $migrationFiles = FileSystem::getFilesInDirectory($this->directory);
         
         foreach ($migrationFiles as $migrationFile) {
             $splittedFileName = explode('.', $migrationFile);
@@ -99,23 +100,5 @@ class MigrationManager
         $migration = App::db()->executeQuery($query, [$migrationId])->fetch();
         
         return ($migration !== false);
-    }
-    
-    /**
-     * Gets all files inside a directory and ignores the hidden files . and .. on Linux systems
-     * @param string $directory
-     * @return array
-     */
-    protected function getFilesInDirectory(string $directory): array
-    {
-        $files = [];
-        
-        foreach (scandir($directory) as $file) {
-            if ($file !== '.' && $file !== '..') {
-                $files[] = $file;
-            }
-        }
-        
-        return $files;
     }
 }
