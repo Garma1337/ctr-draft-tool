@@ -66,6 +66,8 @@
         </nav>
 
         <div class="container main-container main-body action-{$action}">
+            <div id="currentLanguage" class="d-none">{$translator->getCurrentLanguage}</div>
+
             {$content nofilter}
         </div>
     </body>

@@ -39,18 +39,12 @@
 
         <div class="ban-grid">
             {foreach from=$draft.bannedTracks key=key item=track}
-                {if $draft.teams[0].id === $track.teamId}
-                    {$bannedByTeamA = true}
-                {else}
-                    {$bannedByTeamA = false}
-                {/if}
-
                 <span class="img-container position-relative">
                     <img
                         src="{$router->getBaseUrl()}images/tracks/{$track.trackId}.png"
                         alt
                         width="{$selectionThumbnailSize}"
-                        class="rounded{if $bannedByTeamA} banned-by-team-a{else} banned-by-team-b{/if}"
+                        class="rounded"
                     >
 
                     <span class="overlay position-absolute">X</span>
@@ -71,18 +65,12 @@
 
         <div class="pick-grid">
             {foreach from=$draft.pickedTracks key=key item=track}
-                {if $draft.teams[0].id === $track.teamId}
-                    {$pickedByTeamA = true}
-                {else}
-                    {$pickedByTeamA = false}
-                {/if}
-
                 <span class="img-container position-relative">
                     <img
                         src="{$router->getBaseUrl()}images/tracks/{$track.trackId}.png"
                         alt
                         width="{$selectionThumbnailSize}"
-                        class="rounded{if $pickedByTeamA} picked-by-team-a{else} picked-by-team-b{/if}"
+                        class="rounded"
                     >
 
                     <span class="overlay position-absolute">{$track.name}</span>

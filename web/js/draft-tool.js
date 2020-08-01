@@ -93,23 +93,26 @@ $(document).ready(function() {
     });
 
     /* Draft Timeout */
-    var timeLeft = localStorage.getItem('draft.timeLeft');
-    if (timeLeft === null) {
-        timeLeft = $('#initialTimeout').text();
-    }
-
-    window.setInterval(function () {
-        timeLeft--;
-        localStorage.setItem('draft.timeLeft', timeLeft);
-        $('#draftTimeoutTimer').text(timeLeft);
-
-        if (timeLeft <= 0) {
-            localStorage.removeItem('draft.timeLeft');
-
-            /* Select random track if timeout was reached */
-            $('form#updateDraftForm0').submit();
+    var initialTimeout = $('#initialTimeout');
+    if (initialTimeout.length) {
+        var timeLeft = localStorage.getItem('draft.timeLeft');
+        if (timeLeft === null) {
+            timeLeft = initialTimeout.text();
         }
-    }, 1000);
+
+        window.setInterval(function () {
+            timeLeft--;
+            localStorage.setItem('draft.timeLeft', timeLeft);
+            $('#draftTimeoutTimer').text(timeLeft);
+
+            if (timeLeft <= 0) {
+                localStorage.removeItem('draft.timeLeft');
+
+                /* Select random track if timeout was reached */
+                $('form#updateDraftForm0').submit();
+            }
+        }, 1000);
+    }
 
     /* Color the border of the placeholders */
     $('.ban-grid img').each(function(index) {
@@ -122,9 +125,9 @@ $(document).ready(function() {
 
     $('.pick-grid img').each(function(index) {
         if ((index + 1) % 4 === 0 || (index + 1) % 4 === 1) {
-            $(this).addClass('banned-by-team-a').removeClass('placeholder');
+            $(this).addClass('picked-by-team-a').removeClass('placeholder');
         } else {
-            $(this).addClass('banned-by-team-b').removeClass('placeholder');
+            $(this).addClass('picked-by-team-b').removeClass('placeholder');
         }
     });
 
