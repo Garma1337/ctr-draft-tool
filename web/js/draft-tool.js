@@ -35,14 +35,17 @@ $(document).ready(function() {
         }
     })
 
-    $('button[type="submit"]').on('click', function(e) {
+    var draftCreateForm = $('#draftCrateForm');
+    var draftCreateFormSubmitButton = $('#draftCrateForm button[type="submit"]');
+
+    draftCreateFormSubmitButton.on('click', function(e) {
         e.preventDefault();
 
         var alertContainer = $('.alerts');
         alertContainer.empty();
 
         $.post(
-            $('form').attr('action'),
+            draftCreateForm.attr('action'),
             {
                 'teamA'                 : $('#inputTeamA').val(),
                 'teamB'                 : $('#inputTeamB').val(),
@@ -84,11 +87,15 @@ $(document).ready(function() {
                     $('#inputTeamAUrl').attr('value', teamAUrl);
                     $('#inputTeamBUrl').attr('value', teamBUrl);
 
-                    $('#inputSpectatorUrl + a').attr('href', spectatorUrl);
-                    $('#inputTeamAUrl + a').attr('href', teamAUrl);
-                    $('#inputTeamBUrl + a').attr('href', teamBUrl);
+                    $('#inputSpectatorUrl + div > a').attr('href', spectatorUrl);
+                    $('#inputTeamAUrl + div > a').attr('href', teamAUrl);
+                    $('#inputTeamBUrl + div > a').attr('href', teamBUrl);
 
                     $('.action-new .draft-create-success').removeClass('d-none');
+
+                    /* Disable form to prevent people from creating lobbies in fast succession */
+                    draftCreateForm.attr('action', '#');
+                    draftCreateFormSubmitButton.attr('disabled', 'disabled')
                 }
             }
         });

@@ -69,20 +69,19 @@
     <hr>
 </div>
 
-
 <div id="baseUrl" class="d-none">{$baseUrl}</div>
 <div class="alerts"></div>
 
-<form action="{$formAction}" method="post">
+<form action="{$formAction}" method="post" id="draftCrateForm">
     <div class="form-row">
         <div class="form-group col-md-2">
             <label for="inputTeamA">Team A</label>
-            <input type="text" class="form-control" id="inputTeamA" name="teamA">
+            <input type="text" class="form-control" id="inputTeamA" name="teamA" value="Team A">
         </div>
 
         <div class="form-group col-md-2">
             <label for="inputTeamB">Team B</label>
-            <input type="text" class="form-control" id="inputTeamB" name="teamB">
+            <input type="text" class="form-control" id="inputTeamB" name="teamB" value="Team B">
         </div>
     </div>
 
