@@ -13,6 +13,7 @@ use DraftTool\Services\Draft;
 use DraftTool\Services\MigrationManager;
 use DraftTool\Services\Request;
 use DraftTool\Services\Router;
+use DraftTool\Services\Translator;
 use ReflectionClass;
 use ReflectionException;
 use Smarty;
@@ -167,6 +168,21 @@ class App
     }
     
     /**
+     * @return Translator
+     */
+    public static function translator(): Translator
+    {
+        if (isset(self::$services['translator'])) {
+            return self::$services['translator'];
+        }
+        
+        $translator = new Translator(__DIR__ . '/../lib/translation/');
+        self::$services['translator'] = $translator;
+        
+        return $translator;
+    }
+    
+    /**
      * Dispatches the request
      * @throws ReflectionException
      */
@@ -183,6 +199,8 @@ class App
             echo 'Action "' . $action . '" not found.';
             die();
         }
+        
+        session_start();
         
         $controller->$actionMethod();
     }

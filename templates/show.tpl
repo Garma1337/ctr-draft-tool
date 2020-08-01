@@ -5,16 +5,25 @@
 
     <div class="info-container">
         <h4 class="text-center">
-            Draft of <strong>{$draft.teams[0].teamName}</strong> vs. <strong>{$draft.teams[1].teamName}</strong>
+            {$translator->translate('action.show.draftHeading')|replace:"#1":$draft.teams[0].teamName|replace:"#2":$draft.teams[1].teamName nofilter}
         </h4>
+
         <hr>
 
         {if $currentPhase !== 'done' && $teamId}
             <div class="text-center turn-alert">
                 {if $teamId === $currentTurn}
-                    It's your turn to {$currentPhase}!
+                    {if $currentPhase === 'ban'}
+                        {$translator->translate('action.show.yourTurnToBan')}
+                    {else}
+                        {$translator->translate('action.show.yourTurnToPick')}
+                    {/if}
                 {else}
-                    The enemy team is {if $currentPhase === 'ban'}banning{else}picking{/if}!
+                    {if $currentPhase === 'ban'}
+                        {$translator->translate('action.show.enemyTurnToBan')}
+                    {else}
+                        {$translator->translate('action.show.enemyTurnToPick')}
+                    {/if}
                 {/if}
             </div>
         {/if}
@@ -89,9 +98,12 @@
             <hr>
 
             <div class="form-group row">
-                <label for="inputTrackSearch" class="col-sm-2 col-form-label text-right">Search Tracks</label>
+                <label for="inputTrackSearch" class="col-sm-2 col-form-label text-right">
+                    {$translator->translate('action.show.searchTracksLabel')}
+                </label>
+
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" id="inputTrackSearch" placeholder="i.e. Tiger Temple..." autofocus>
+                    <input type="text" class="form-control" id="inputTrackSearch" placeholder="{$translator->translate('action.show.searchTracksPlaceholder')}" autofocus>
                 </div>
             </div>
 
@@ -119,6 +131,6 @@
     {/if}
 {else}
     <div class="container">
-        <div class="alert alert-danger">There is no draft with the ID {$id}!</div>
+        <div class="alert alert-danger">{$translator->translate('action.show.draftDoesNotExist')|replace:'#1':$id}</div>
     </div>
 {/if}

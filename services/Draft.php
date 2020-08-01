@@ -14,13 +14,13 @@ use PDO;
  */
 class Draft
 {
-    const PHASE_BAN = 'ban';
-    const PHASE_PICK = 'pick';
-    const PHASE_DONE = 'done';
+    public const PHASE_BAN = 'ban';
+    public const PHASE_PICK = 'pick';
+    public const PHASE_DONE = 'done';
     
-    const TRACK_SPYRO_CIRCUIT = 34;
-    const TRACK_HYPER_SPACEWAY = 31;
-    const TRACK_RETRO_STADIUM = 40;
+    public const TRACK_SPYRO_CIRCUIT = 34;
+    public const TRACK_HYPER_SPACEWAY = 31;
+    public const TRACK_RETRO_STADIUM = 40;
     
     /**
      * Creates a new draft and returns the data of the inserted row (id, access keys)
@@ -75,7 +75,8 @@ class Draft
         App::db()->insert('draft_teams', [
             'draftId'       => $id,
             'teamName'      => $teamB,
-            'accessKey'     => $accessKeyB
+            'accessKey'     => $accessKeyB,
+            'ready'         => (int) ($timeout === null)
         ]);
         
         App::db()->commit();

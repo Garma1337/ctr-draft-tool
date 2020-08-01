@@ -6,7 +6,7 @@ namespace DraftTool\Lib;
 
 use DraftTool\Services\Draft;
 use DraftTool\Services\Request;
-use DraftTool\Services\Router;
+use DraftTool\Services\Translator;
 use Smarty;
 use SmartyException;
 
@@ -22,11 +22,6 @@ class Controller
     protected Request $request;
     
     /**
-     * @var Router
-     */
-    protected Router $router;
-    
-    /**
      * @var Smarty
      */
     protected Smarty $template;
@@ -34,7 +29,6 @@ class Controller
     public function __construct()
     {
         $this->request = App::request();
-        $this->router = App::router();
         $this->template = App::template();
     }
     
@@ -48,21 +42,21 @@ class Controller
     }
     
     /**
-     * "Create Draft" Action
+     * Action to create a new draft
      * @throws SmartyException
      */
     public function newAction(): void
     {
         $this->template->assign([
-            'baseUrl'       => $this->router->getBaseUrl(),
-            'formAction'    => $this->router->generateUrl('createDraft')
+            'baseUrl'       => App::router()->getBaseUrl(),
+            'formAction'    => App::router()->generateUrl('createDraft')
         ]);
         
         $this->renderTemplate('new');
     }
     
     /**
-     * "Show Draft" Action
+     * Action to show a draft
      * @throws SmartyException
      */
     public function showAction(): void
@@ -161,50 +155,50 @@ class Controller
             ];
             
             if (empty($requestParams['teamA'])) {
-                $response['errors'][] = 'You must enter the name of Team A.';
+                $response['errors'][] = App::translator()->translate('action.createDraft.teamANameMissing');
             }
             
             if (empty($requestParams['teamB'])) {
-                $response['errors'][] = 'You must enter the name of Team B.';
+                $response['errors'][] = App::translator()->translate('action.createDraft.teamBNameMissing');
             }
             
             if (!empty($requestParams['teamA']) && !empty($requestParams['teamB'])) {
                 if ($requestParams['teamA'] === $requestParams['teamB']) {
-                    $response['errors'][] = 'Team A and Team B cannot have the same name.';
+                    $response['errors'][] = App::translator()->translate('action.createDraft.sameTeamNames');
                 }
             }
             
             if ($requestParams['bans'] <= 0) {
-                $response['errors'][] = 'You must enter the number of bans per team.';
+                $response['errors'][] = App::translator()->translate('action.createDraft.numberBansMissing');
             } else {
                 if (!$requestParams['allowTrackRepeats']) {
                     if ($requestParams['bans'] > 10) {
-                        $response['errors'][] = 'The number of bans per team cannot be more than 10.';
+                        $response['errors'][] = str_replace('#1', 10, App::translator()->translate('action.createDraft.maxNumberBans'));
                     }
                 } else {
                     if ($requestParams['bans'] > 17) {
-                        $response['errors'][] = 'The number of bans per team cannot be more than 17.';
+                        $response['errors'][] = str_replace('#1', 17, App::translator()->translate('action.createDraft.maxNumberBans'));;
                     }
                 }
             }
             
             if ($requestParams['picks'] <= 0) {
-                $response['errors'][] = 'You must enter the number of picks per team.';
+                $response['errors'][] = App::translator()->translate('action.createDraft.numberPicksMissing');
             } else {
                 if (!$requestParams['allowTrackRepeats']) {
                     if ($requestParams['picks'] > 18) {
-                        $response['errors'][] = 'The number of picks per team cannot be more than 18.';
+                        $response['errors'][] = str_replace('#1', 18, App::translator()->translate('action.createDraft.maxNumberPicks'));
                     }
                 } else {
                     if ($requestParams['picks'] > 30) {
-                        $response['errors'][] = 'The number of picks per team cannot be more than 30.';
+                        $response['errors'][] = str_replace('#1', 30, App::translator()->translate('action.createDraft.maxNumberPicks'));
                     }
                 }
             }
             
             if (!empty($requestParams['timeout'])) {
                 if ($requestParams['timeout'] < 15 || $requestParams['timeout'] > 60) {
-                    $response['errors'][] = 'The value for the timeout has to be between 15 and 60.';
+                    $response['errors'][] = App::translator()->translate('action.createDraft.timeValueIncorrect');
                 }
             }
             
@@ -269,10 +263,26 @@ class Controller
                 App::draft()->pickTrack($draftId, $trackId, $postedTeamId);
             }
             
-            header('Location: ' . $this->router->generateUrl('show', ['id' => $draftId, 'accessKey' => $accessKey]));
+            header('Location: ' . App::router()->generateUrl('show', ['id' => $draftId, 'accessKey' => $accessKey]));
         } else {
             echo json_encode(['error' => 'Invalid request method']);
         }
+    }
+    
+    /**
+     * Action to switch the language
+     */
+    public function switchLanguageAction(): void
+    {
+        $language = $this->request->getParam('language');
+        
+        if (!App::translator()->languageExists($language)) {
+            $_SESSION['language'] = Translator::LANGUAGE_ENGLISH;
+        } else {
+            $_SESSION['language'] = $language;
+        }
+        
+        $this->redirect('index');
     }
     
     /**
@@ -282,9 +292,11 @@ class Controller
      */
     protected function renderTemplate(string $action): void
     {
+        /* Imagine assigning objects to the view KEKW ... I am lazy */
         $this->template->assign([
-            'action' => $action,
-            'router' => $this->router // any smarty extensions?
+            'action'        => $action,
+            'router'        => App::router(),
+            'translator'    => App::translator()
         ]);
         
         $content = $this->template->fetch($action . '.tpl');
@@ -293,5 +305,17 @@ class Controller
         $layout->assign('content', $content);
         
         $layout->display('layout.tpl');
+    }
+    
+    /**
+     * Redirects a user to a given action
+     * @param string $action
+     * @param array $params
+     */
+    protected function redirect(string $action, array $params = []): void
+    {
+        $url = App::router()->generateUrl($action, $params);
+        
+        header('Location: ' . $url, true, 301);
     }
 }

@@ -7,8 +7,8 @@
                 <th scope="col">#</th>
                 <th scope="col">Team A</th>
                 <th scope="col">Team B</th>
-                <th scope="col"># of bans</th>
-                <th scope="col"># of picks</th>
+                <th scope="col">{$translator->translate('action.draftList.tableHeadNumberBans')}</th>
+                <th scope="col">{$translator->translate('action.draftList.tableHeadNumberPicks')}</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -23,7 +23,8 @@
                     <td>
                         <a href="{$router->generateUrl('show', ['id' => $draft.id])}">
                             <button class="btn btn-primary">
-                                <img src="{$router->getBaseUrl()}images/icons-white/zoom-in.svg" alt> Show
+                                <img src="{$router->getBaseUrl()}images/icons-white/zoom-in.svg" alt>
+                                {$translator->translate('action.draftList.buttonShowLabel')}
                             </button>
                         </a>
                     </td>
