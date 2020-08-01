@@ -86,8 +86,6 @@ class Controller
                 'accessKey'                 => $accessKey,
                 'draft'                     => $draft,
                 'tracks'                    => $tracks,
-                'teamA'                     => $draft['teams'][0]['id'],
-                'teamB'                     => $draft['teams'][1]['id'],
                 'teamId'                    => $teamId,
                 'selectionThumbnailSize'    => 150,
                 'trackGridThumbnailSize'    => 250,

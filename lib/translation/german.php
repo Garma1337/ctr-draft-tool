@@ -38,6 +38,7 @@ return [
     'action.show.yourTurnToPick'                        => 'Du bist dran mit picken!',
     'action.show.enemyTurnToBan'                        => 'Das gegnerische Team bannt gerade ...',
     'action.show.enemyTurnToPick'                       => 'Das gegnerische Team pickt gerade ...',
+    'action.show.timeLeft'                              => 'Dir bleiben noch #1 Sekunde(n)!',
     'action.show.searchTracksLabel'                     => 'Strecken suchen',
     'action.show.searchTracksPlaceholder'               => 'z.B. Tiger Temple ...',
     'action.show.draftDoesNotExist'                     => 'Es gibt keinen Draft mit der ID #1.'

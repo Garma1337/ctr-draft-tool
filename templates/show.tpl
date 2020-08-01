@@ -1,6 +1,30 @@
 {if $draft}
+    {if $currentPhase !== 'done' && $teamId && $teamId === $currentTurn && $draft.timeout > 0}
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var timeLeft = localStorage.getItem('draft.timeLeft');
+                if (timeLeft === null) {
+                    timeLeft = {$draft.timeout};
+                }
+
+                window.setInterval(function () {
+                    timeLeft--;
+                    localStorage.setItem('draft.timeLeft', timeLeft);
+                    $('#draftTimeoutTimer').text(timeLeft);
+
+                    if (timeLeft <= 0) {
+                        /* Select random track if timeout was reached */
+                        $('form#updateDraftForm0').submit();
+
+                        localStorage.removeItem('draft.timeLeft');
+                    }
+                }, 1000);
+            });
+        </script>
+    {/if}
+
     {if (!$accessKey || ($teamId && $teamId !== $currentTurn)) && $currentPhase !== 'done'}
-        <meta http-equiv="refresh" content="2">
+        <meta http-equiv="refresh" content="5">
     {/if}
 
     <div class="info-container">
@@ -17,6 +41,11 @@
                         {$translator->translate('action.show.yourTurnToBan')}
                     {else}
                         {$translator->translate('action.show.yourTurnToPick')}
+                    {/if}
+
+                    {if $draft.timeout > 0}
+                        {capture assign=replacement}<span id="draftTimeoutTimer">{$draft.timeout}</span>{/capture}
+                        {$translator->translate('action.show.timeLeft')|replace:'#1':$replacement nofilter}
                     {/if}
                 {else}
                     {if $currentPhase === 'ban'}
@@ -98,7 +127,7 @@
             <hr>
 
             <div class="form-group row">
-                <label for="inputTrackSearch" class="col-sm-2 col-form-label text-right">
+                <label for="inputTrackSearch" class="col-sm-2 col-form-label">
                     {$translator->translate('action.show.searchTracksLabel')}
                 </label>
 
@@ -122,7 +151,7 @@
                         <span class="img-container position-relative" data-track="{$track.name}">
                             <img src="{$router->getBaseUrl()}images/tracks/{$track.id}.png" alt width="{$trackGridThumbnailSize}" class="img-thumbnail rounded">
 
-                            <span class="overlay position-absolute">{$track.name}</span>
+                            <div class="overlay position-absolute">{$track.name}</div>
                         </span>
                     </span>
                 {/foreach}

@@ -38,6 +38,7 @@ return [
     'action.show.yourTurnToPick'                        => 'It\'s your turn to pick!',
     'action.show.enemyTurnToBan'                        => 'The enemy team is banning ...',
     'action.show.enemyTurnToPick'                       => 'The enemy team is picking ...',
+    'action.show.timeLeft'                              => 'You have #1 second(s) left!',
     'action.show.searchTracksLabel'                     => 'Search Tracks',
     'action.show.searchTracksPlaceholder'               => 'i.e. Tiger Temple ...',
     'action.show.draftDoesNotExist'                     => 'There is no draft with the ID #1.'
