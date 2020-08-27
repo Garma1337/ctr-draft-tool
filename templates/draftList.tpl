@@ -6,6 +6,7 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
+                    <th scope="col">{$translator->translate('action.draftList.tableHeadMode')}</th>
                     <th scope="col">Team A</th>
                     <th scope="col">Team B</th>
                     <th scope="col">{$translator->translate('action.draftList.tableHeadNumberBans')}</th>
@@ -18,6 +19,7 @@
                 {foreach from=$drafts item=draft}
                     <tr>
                         <td>{$draft.id}</td>
+                        <td>{$draft.modeName}</td>
                         <td>{$draft.teams[0].teamName}</td>
                         <td>{$draft.teams[1].teamName}</td>
                         <td>{$draft.bans}</td>

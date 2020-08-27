@@ -14,10 +14,6 @@
         <title>CTR Draft Tool v2</title>
 
         <!-- Local Files --->
-        {if $selectedTheme === $darkTheme}
-            <link rel="stylesheet" href="{$router->getBaseUrl()}web/css/bootstrap-darkly.min.css">
-        {/if}
-
         <link rel="stylesheet" href="{$router->getBaseUrl()}web/css/draft-tool.css">
         <script src="{$router->getBaseUrl()}web/js/draft-tool.js"></script>
     </head>
@@ -62,20 +58,6 @@
                                 {foreach from=$translator->getLanguages() item=language}
                                     <a class="dropdown-item" href="{$router->generateUrl('index', ['language' => $language])}">{$language|ucfirst}</a>
                                 {/foreach}
-                            </div>
-                        </li>
-                    </ul>
-
-                    <ul class="navbar-nav">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarLanguageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="{$router->getBaseUrl()}web/images/icons-white/pen-tool.svg" alt>
-                                Theme
-                            </a>
-
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{$router->generateUrl('index', ['theme' => 'light'])}">Light</a>
-                                <a class="dropdown-item" href="{$router->generateUrl('index', ['theme' => 'dark'])}">Dark</a>
                             </div>
                         </li>
                     </ul>

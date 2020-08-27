@@ -29,6 +29,7 @@ $(document).ready(function() {
         $.post(
             draftCreateForm.attr('action'),
             {
+                'mode'                  : $('#inputMode').val(),
                 'teamA'                 : $('#inputTeamA').val(),
                 'teamB'                 : $('#inputTeamB').val(),
                 'bans'                  : $('#inputNumberBans').val(),
@@ -89,6 +90,23 @@ $(document).ready(function() {
             $('#splitTurboRetro').parent('div').removeClass('d-none');
         } else {
             $('#splitTurboRetro').parent('div').addClass('d-none');
+        }
+    });
+
+    /* Disable Track options and change default values when selecting battle mode */
+    $('#inputMode').on('change', function() {
+        var mode = Number($(this).val());
+
+        if (mode === 2) {
+            $('.track-options').hide();
+
+            $('#inputNumberBans').attr('value', 1);
+            $('#inputNumberPicks').attr('value', 3);
+        } else {
+            $('.track-options').show();
+
+            $('#inputNumberBans').attr('value', 3);
+            $('#inputNumberPicks').attr('value', 5);
         }
     });
 

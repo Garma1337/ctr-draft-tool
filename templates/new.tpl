@@ -73,6 +73,15 @@
 <div class="alerts"></div>
 
 <form action="{$formAction}" method="post" id="draftCrateForm">
+    <div class="form-group">
+        <label for="inputMode">{$translator->translate('action.new.modeLabel')}</label>
+        <select class="form-control col-md-2" id="inputMode" name="mode">
+            {foreach from=$modes key=key item=mode}
+                <option value="{$mode.id}"{if $key === 0} selected{/if}>{$mode.name}</option>
+            {/foreach}
+        </select>
+    </div>
+
     <div class="form-row">
         <div class="form-group col-md-2">
             <label for="inputTeamA">Team A</label>
@@ -100,32 +109,34 @@
         <input type="number" class="form-control col-md-1" id="inputTimeout" name="timeout" min="15" max="60">
     </div>
 
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="enableSpyroCircuit" id="enableSpyroCircuit">
-        <label class="form-check-label" for="enableSpyroCircuit">
-            {$translator->translate('action.new.checkboxSpyroCircuitLabel')}
-        </label>
-    </div>
+    <div class="track-options">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="enableSpyroCircuit" id="enableSpyroCircuit">
+            <label class="form-check-label" for="enableSpyroCircuit">
+                {$translator->translate('action.new.checkboxSpyroCircuitLabel')}
+            </label>
+        </div>
 
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="enableHyperSpaceway" id="enableHyperSpaceway">
-        <label class="form-check-label" for="enableHyperSpaceway">
-            {$translator->translate('action.new.checkboxHyperSpacewayLabel')}
-        </label>
-    </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="enableHyperSpaceway" id="enableHyperSpaceway">
+            <label class="form-check-label" for="enableHyperSpaceway">
+                {$translator->translate('action.new.checkboxHyperSpacewayLabel')}
+            </label>
+        </div>
 
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="enableRetroStadium" id="enableRetroStadium">
-        <label class="form-check-label" for="enableRetroStadium">
-            {$translator->translate('action.new.checkboxRetroStadiumLabel')}
-        </label>
-    </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="enableRetroStadium" id="enableRetroStadium">
+            <label class="form-check-label" for="enableRetroStadium">
+                {$translator->translate('action.new.checkboxRetroStadiumLabel')}
+            </label>
+        </div>
 
-    <div class="form-check d-none">
-        <input class="form-check-input" type="checkbox" name="splitTurboRetro" id="splitTurboRetro">
-        <label class="form-check-label" for="splitTurboRetro">
-            {$translator->translate('action.new.checkboxSplitTurboRetroLabel')}
-        </label>
+        <div class="form-check d-none">
+            <input class="form-check-input" type="checkbox" name="splitTurboRetro" id="splitTurboRetro">
+            <label class="form-check-label" for="splitTurboRetro">
+                {$translator->translate('action.new.checkboxSplitTurboRetroLabel')}
+            </label>
+        </div>
     </div>
 
     <div class="form-check">

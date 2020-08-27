@@ -100,7 +100,13 @@
                 </label>
 
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" id="inputTrackSearch" placeholder="{$translator->translate('action.show.searchTracksPlaceholder')}" autofocus>
+                    {if $draft.mode == 1}
+                        <input type="text" class="form-control" id="inputTrackSearch" placeholder="{$translator->translate('action.show.searchTracksPlaceholderRace')}" autofocus>
+                    {/if}
+
+                    {if $draft.mode == 2}
+                        <input type="text" class="form-control" id="inputTrackSearch" placeholder="{$translator->translate('action.show.searchTracksPlaceholderBattle')}" autofocus>
+                    {/if}
                 </div>
             </div>
 

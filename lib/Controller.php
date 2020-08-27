@@ -46,11 +46,6 @@ class Controller
                 $_SESSION['language'] = $language;
             }
         }
-        
-        if ($this->request->has('theme')) {
-            $theme = $this->request->getParam('theme');
-            $_SESSION['theme'] = $theme;
-        }
     }
     
     /**
@@ -70,7 +65,8 @@ class Controller
     {
         $this->template->assign([
             'baseUrl'       => App::router()->getBaseUrl(),
-            'formAction'    => App::router()->generateUrl('createDraft')
+            'formAction'    => App::router()->generateUrl('createDraft'),
+            'modes'         => App::draft()->getModes()
         ]);
         
         $this->renderTemplate('new');
@@ -94,7 +90,7 @@ class Controller
                 $teamId = App::draft()->getTeamIdbyAccessKey($draftId, $accessKey);
             }
             
-            $existingTracks = App::draft()->getExistingTracks();
+            $existingTracks = App::draft()->getExistingTracks((int) $draft['mode']);
             $availableTracks = App::draft()->getAvailableTracks($draftId);
             
             /* Bad performance */
@@ -178,6 +174,7 @@ class Controller
             $response = [];
             
             $requestParams = [
+                'mode'                  => (int) $this->request->getParam('mode'),
                 'teamA'                 => $this->request->getParam('teamA'),
                 'teamB'                 => $this->request->getParam('teamB'),
                 'bans'                  => (int) $this->request->getParam('bans'),
@@ -190,56 +187,11 @@ class Controller
                 'allowTrackRepeats'     => (bool) $this->request->getParam('allowTrackRepeats')
             ];
             
-            if (empty($requestParams['teamA'])) {
-                $response['errors'][] = App::translator()->translate('action.createDraft.teamANameMissing');
-            }
+            $response['errors'] = App::draft()->validateParams($requestParams);
             
-            if (empty($requestParams['teamB'])) {
-                $response['errors'][] = App::translator()->translate('action.createDraft.teamBNameMissing');
-            }
-            
-            if (!empty($requestParams['teamA']) && !empty($requestParams['teamB'])) {
-                if ($requestParams['teamA'] === $requestParams['teamB']) {
-                    $response['errors'][] = App::translator()->translate('action.createDraft.sameTeamNames');
-                }
-            }
-            
-            if ($requestParams['bans'] <= 0) {
-                $response['errors'][] = App::translator()->translate('action.createDraft.numberBansMissing');
-            } else {
-                if (!$requestParams['allowTrackRepeats']) {
-                    if ($requestParams['bans'] > 10) {
-                        $response['errors'][] = str_replace('#1', 10, App::translator()->translate('action.createDraft.maxNumberBans'));
-                    }
-                } else {
-                    if ($requestParams['bans'] > 17) {
-                        $response['errors'][] = str_replace('#1', 17, App::translator()->translate('action.createDraft.maxNumberBans'));;
-                    }
-                }
-            }
-            
-            if ($requestParams['picks'] <= 0) {
-                $response['errors'][] = App::translator()->translate('action.createDraft.numberPicksMissing');
-            } else {
-                if (!$requestParams['allowTrackRepeats']) {
-                    if ($requestParams['picks'] > 18) {
-                        $response['errors'][] = str_replace('#1', 18, App::translator()->translate('action.createDraft.maxNumberPicks'));
-                    }
-                } else {
-                    if ($requestParams['picks'] > 30) {
-                        $response['errors'][] = str_replace('#1', 30, App::translator()->translate('action.createDraft.maxNumberPicks'));
-                    }
-                }
-            }
-            
-            if (!empty($requestParams['timeout'])) {
-                if ($requestParams['timeout'] < 15 || $requestParams['timeout'] > 60) {
-                    $response['errors'][] = App::translator()->translate('action.createDraft.timeValueIncorrect');
-                }
-            }
-            
-            if (!is_array($response['errors']) || count($response['errors']) <= 0) {
+            if (count($response['errors']) <= 0) {
                 $draft = App::draft()->create(
+                    $requestParams['mode'],
                     $requestParams['teamA'],
                     $requestParams['teamB'],
                     $requestParams['bans'],

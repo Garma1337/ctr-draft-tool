@@ -7,6 +7,7 @@ return [
     'action.index.welcomeText'                          => 'Welcome to the CTR Draft Tool v2!',
     'action.index.explanation'                          => 'This Draft Tool is an enhanced version of Leniovias\' old Draft Tool. It features mobile support, as well as the possibility to exclude Tracks like Spyro Circuit or Hyper Spaceway. It also supports a custom number of bans and picks and many other things!',
     'action.index.getStartedButtonLabel'                => 'Get started now!',
+    'action.new.modeLabel'                              => 'Mode',
     'action.new.numberBansLabel'                        => '# of bans per Team',
     'action.new.numberPicksLabel'                       => '# of picks per Team',
     'action.new.timeoutLabel'                           => 'Timeout for banning / picking (leave empty for no timeout)',
@@ -22,6 +23,8 @@ return [
     'action.new.linkTeamBLabel'                         => 'Link Team B',
     'action.new.openLinkButtonLabel'                    => 'Open',
     'action.new.copyButtonLabel'                        => 'Copy',
+    'action.createDraft.modeMissing'                    => 'You must select a game mode.',
+    'action.createDraft.modeDoesNotExist'               => 'The selected game mode does not exist.',
     'action.createDraft.teamANameMissing'               => 'You must enter the name of Team A.',
     'action.createDraft.teamBNameMissing'               => 'You must enter the name of Team B.',
     'action.createDraft.sameTeamNames'                  => 'Team A and Team B cannot have the same name.',
@@ -30,6 +33,7 @@ return [
     'action.createDraft.numberPicksMissing'             => 'You must enter the number of picks per team.',
     'action.createDraft.maxNumberPicks'                 => 'The number of picks per team cannot be more than #1.',
     'action.createDraft.timeValueIncorrect'             => 'The value for the timeout has to be between 15 and 60.',
+    'action.draftList.tableHeadMode'                    => 'Mode',
     'action.draftList.tableHeadNumberBans'              => '# of bans',
     'action.draftList.tableHeadNumberPicks'             => '# of picks',
     'action.draftList.buttonShowLabel'                  => 'Show',
@@ -40,6 +44,7 @@ return [
     'action.show.enemyTurnToPick'                       => 'The enemy team is picking ...',
     'action.show.timeLeft'                              => 'You have #1 second(s) left!',
     'action.show.searchTracksLabel'                     => 'Search Tracks',
-    'action.show.searchTracksPlaceholder'               => 'i.e. Tiger Temple ...',
+    'action.show.searchTracksPlaceholderRace'           => 'i.e. Tiger Temple ...',
+    'action.show.searchTracksPlaceholderBattle'         => 'i.e. Frozen Frenzy ...',
     'action.show.draftDoesNotExist'                     => 'There is no draft with the ID #1.'
 ];

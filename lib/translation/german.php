@@ -7,6 +7,7 @@ return [
     'action.index.welcomeText'                          => 'Willkommen auf dem CTR Draft Tool v2!',
     'action.index.explanation'                          => 'Dieses Draft Tool ist eine Neuentwicklung von Leniovias\' altem Draft Tool. Es unterstützt Smartphones sowie die Möglichkeit bestimmte Strecken wie Spyro Circuit oder Hyper Spaceway von der Streckenauswahl auszuschließen. Außerdem kann man eine eigene Anzahl Banns und Picks eingeben und vieles mehr!',
     'action.index.getStartedButtonLabel'                => 'Jetzt loslegen!',
+    'action.new.modeLabel'                              => 'Modus',
     'action.new.numberBansLabel'                        => 'Anzahl Banns pro Team',
     'action.new.numberPicksLabel'                       => 'Anzahl Picks pro Team',
     'action.new.timeoutLabel'                           => 'Timeout für\'s Bannen / Picken (leerlassen damit kein Timeout gesetzt wird)',
@@ -22,6 +23,8 @@ return [
     'action.new.linkTeamBLabel'                         => 'Link für Team B',
     'action.new.openLinkButtonLabel'                    => 'Öffnen',
     'action.new.copyButtonLabel'                        => 'Kopieren',
+    'action.createDraft.modeMissing'                    => 'Du musst einen Spielmodus auswählen.',
+    'action.createDraft.modeDoesNotExist'               => 'Der ausgewählte Spielmodus existiert nicht.',
     'action.createDraft.teamANameMissing'               => 'Du musst einen Namen für Team A angeben.',
     'action.createDraft.teamBNameMissing'               => 'Du musst einen Namen für Team B angeben.',
     'action.createDraft.sameTeamNames'                  => 'Team A und Team B können nicht den selben Namen haben.',
@@ -30,6 +33,7 @@ return [
     'action.createDraft.numberPicksMissing'             => 'Du musst die Anzahl der Picks pro Team angeben.',
     'action.createDraft.maxNumberPicks'                 => 'Die Anzahl der Picks pro Team darf nicht mehr als #1 sein.',
     'action.createDraft.timeValueIncorrect'             => 'Der wert für den Timeout muss zwischen 15 und 60 liegen.',
+    'action.draftList.tableHeadMode'                    => 'Modus',
     'action.draftList.tableHeadNumberBans'              => 'Anzahl bans',
     'action.draftList.tableHeadNumberPicks'             => 'Anzahl picks',
     'action.draftList.buttonShowLabel'                  => 'Anzeigen',
@@ -40,6 +44,7 @@ return [
     'action.show.enemyTurnToPick'                       => 'Das gegnerische Team pickt gerade ...',
     'action.show.timeLeft'                              => 'Dir bleiben noch #1 Sekunde(n)!',
     'action.show.searchTracksLabel'                     => 'Strecken suchen',
-    'action.show.searchTracksPlaceholder'               => 'z.B. Tiger Temple ...',
+    'action.show.searchTracksPlaceholderRace'           => 'z.B. Tiger Temple ...',
+    'action.show.searchTracksPlaceholderBattle'         => 'z.B. Frozen Frenzy ...',
     'action.show.draftDoesNotExist'                     => 'Es gibt keinen Draft mit der ID #1.'
 ];

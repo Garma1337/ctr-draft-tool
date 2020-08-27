@@ -14,6 +14,9 @@ use PDO;
  */
 class Draft
 {
+    public const MODE_RACE = 1;
+    public const MODE_BATTLE = 2;
+    
     public const PHASE_BAN = 'ban';
     public const PHASE_PICK = 'pick';
     public const PHASE_DONE = 'done';
@@ -24,6 +27,7 @@ class Draft
     
     /**
      * Creates a new draft and returns the data of the inserted row (id, access keys)
+     * @param int $mode
      * @param string $teamA
      * @param string $teamB
      * @param int $bans
@@ -36,6 +40,7 @@ class Draft
      * @param bool $allowTrackRepeats
      */
     public function create(
+        int $mode,
         string $teamA,
         string $teamB,
         int $bans,
@@ -47,9 +52,18 @@ class Draft
         bool $splitTurboRetro,
         bool $allowTrackRepeats
     ): array {
+        /* These tracks are unavailable in battle mode obviously */
+        if ($mode === self::MODE_BATTLE) {
+            $enableSpyroCircuit = false;
+            $enableHyperSpaceway = false;
+            $enableRetroStadium = false;
+            $splitTurboRetro = false;
+        }
+        
         App::db()->beginTransaction();
         
         App::db()->insert('drafts', [
+            'mode'                  => $mode,
             'bans'                  => $bans,
             'picks'                 => $picks,
             'timeout'               => $timeout,
@@ -176,7 +190,14 @@ class Draft
      */
     public function findById(int $id): ?array
     {
-        $query = 'SELECT * FROM drafts WHERE id = ?';
+        $query = 'SELECT
+                    d.*,
+                    dm.name AS modeName
+                  FROM drafts d
+                  INNER JOIN draft_modes dm
+                  ON d.mode = dm.id
+                  WHERE d.id = ?';
+        
         $draft = App::db()->executeQuery($query, [$id])->fetch();
         
         if ($draft === false) {
@@ -320,19 +341,23 @@ class Draft
             ->select('*')
             ->from('tracks')
             ->where('id NOT IN (SELECT trackId FROM draft_bans WHERE draftId = :draftId)')
+            ->andWhere('mode = :mode')
             ->setParameter('draftId', $draftId)
+            ->setParameter('mode', $draft['mode'])
         ;
         
-        if (!$draft['enableSpyroCircuit']) {
-            $queryBuilder->andWhere('id != ' . self::TRACK_SPYRO_CIRCUIT);
-        }
-        
-        if (!$draft['enableHyperSpaceway']) {
-            $queryBuilder->andWhere('id != ' . self::TRACK_HYPER_SPACEWAY);
-        }
-        
-        if (!$draft['enableRetroStadium'] || !$draft['splitTurboRetro']) {
-            $queryBuilder->andWhere('id != ' . self::TRACK_RETRO_STADIUM);
+        if ((int) $draft['mode'] === self::MODE_RACE) {
+            if (!$draft['enableSpyroCircuit']) {
+                $queryBuilder->andWhere('id != ' . self::TRACK_SPYRO_CIRCUIT);
+            }
+            
+            if (!$draft['enableHyperSpaceway']) {
+                $queryBuilder->andWhere('id != ' . self::TRACK_HYPER_SPACEWAY);
+            }
+            
+            if (!$draft['enableRetroStadium'] || !$draft['splitTurboRetro']) {
+                $queryBuilder->andWhere('id != ' . self::TRACK_RETRO_STADIUM);
+            }
         }
         
         if (!$draft['allowTrackRepeats']) {
@@ -343,12 +368,30 @@ class Draft
     }
     
     /**
-     * Returns a list of all existing tracks
+     * Returns a list of all existing tracks, optionally filtered by mode
+     * @param int|null $mode
      * @return array
      */
-    public function getExistingTracks(): array
+    public function getExistingTracks(?int $mode = null): array
     {
+        $params = [];
         $query = 'SELECT * FROM tracks';
+        
+        if ($mode !== null) {
+            $query .= ' WHERE mode = ?';
+            $params = [$mode];
+        }
+        
+        return App::db()->executeQuery($query, $params)->fetchAll();
+    }
+    
+    /**
+     * Returns a list of all draft modes
+     * @return array
+     */
+    public function getModes(): array
+    {
+        $query = 'SELECT * FROM draft_modes';
         return App::db()->executeQuery($query)->fetchAll();
     }
     
@@ -390,5 +433,79 @@ class Draft
             'teamId'    => $teamId,
             'sortOrder' => 0
         ]);
+    }
+    
+    /**
+     * Validates a draft
+     * @param array $params
+     * @return array
+     */
+    public function validateParams(array $params): array
+    {
+        $errors = [];
+        
+        if (empty($params['mode'])) {
+            $errors[] = App::translator()->translate('action.createDraft.modeMissing');
+        } else {
+            if ($params['mode'] !== self::MODE_RACE && $params['mode'] !== self::MODE_BATTLE) {
+                $errors[] = App::translator()->translate('action.createDraft.modeDoesNotExist');
+            }
+        }
+        
+        if (empty($params['teamA'])) {
+            $errors[] = App::translator()->translate('action.createDraft.teamANameMissing');
+        }
+        
+        if (empty($params['teamB'])) {
+            $errors[] = App::translator()->translate('action.createDraft.teamBNameMissing');
+        }
+        
+        if (!empty($params['teamA']) && !empty($params['teamB'])) {
+            if ($params['teamA'] === $params['teamB']) {
+                $errors[] = App::translator()->translate('action.createDraft.sameTeamNames');
+            }
+        }
+        
+        if ($params['bans'] <= 0) {
+            $errors[] = App::translator()->translate('action.createDraft.numberBansMissing');
+        } else {
+            if (!$params['allowTrackRepeats']) {
+                $limit = ($params['mode'] === self::MODE_RACE ? 15 : 5);
+                
+                if ($params['bans'] > $limit) {
+                    $errors[] = str_replace('#1', $limit, App::translator()->translate('action.createDraft.maxNumberBans'));
+                }
+            } else {
+                $limit = ($params['mode'] === self::MODE_RACE ? 17 : 5);
+                
+                if ($params['bans'] > $limit) {
+                    $errors[] = str_replace('#1', $limit, App::translator()->translate('action.createDraft.maxNumberBans'));;
+                }
+            }
+        }
+        
+        if ($params['picks'] <= 0) {
+            $errors[] = App::translator()->translate('action.createDraft.numberPicksMissing');
+        } else {
+            if (!$params['allowTrackRepeats']) {
+                $limit = ($params['mode'] === self::MODE_RACE ? 18 : 6);
+                
+                if ($params['picks'] > $limit) {
+                    $errors[] = str_replace('#1', $limit, App::translator()->translate('action.createDraft.maxNumberPicks'));
+                }
+            } else {
+                if ($params['picks'] > 30) {
+                    $errors[] = str_replace('#1', 30, App::translator()->translate('action.createDraft.maxNumberPicks'));
+                }
+            }
+        }
+        
+        if (!empty($params['timeout'])) {
+            if ($params['timeout'] < 15 || $params['timeout'] > 60) {
+                $errors[] = App::translator()->translate('action.createDraft.timeValueIncorrect');
+            }
+        }
+        
+        return $errors;
     }
 }
