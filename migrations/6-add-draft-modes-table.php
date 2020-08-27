@@ -26,7 +26,7 @@ class Migration6 implements MigrationInterface
         
         App::db()->executeQuery("
             INSERT INTO `draft_modes` (`id`, `uid`, `name`) VALUES
-            (1, 'race', 'Race'),
+            (1, 'race', 'Race Mode'),
             (2, 'battle', 'Battle Mode');
         ");
         
