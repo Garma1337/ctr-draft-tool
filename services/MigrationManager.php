@@ -50,7 +50,7 @@ class MigrationManager
             $splittedFileName = explode('.', $migrationFile);
             
             $splittedMigrationName = explode('-', $splittedFileName[0]);
-            $migrationId = array_shift($splittedMigrationName);
+            $migrationId = (int) array_shift($splittedMigrationName);
             $migrationName = implode('-', $splittedMigrationName);
             
             if (!$this->isMigrationUp($migrationId)) {
