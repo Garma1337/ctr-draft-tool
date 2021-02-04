@@ -33,7 +33,7 @@ class Migration1 implements MigrationInterface
                 (6, 'Turbo Track'),
                 (7, 'Coco Park'),
                 (8, 'Tiger Temple'),
-                (9, 'Papu's Pyramid'),
+                (9, 'Papu\'s Pyramid'),
                 (10, 'Dingo Canyon'),
                 (11, 'Polar Pass'),
                 (12, 'Tiny Arena'),
