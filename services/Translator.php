@@ -37,7 +37,7 @@ class Translator
     /**
      * Translates a language variable
      * @param string $variable
-     * @param string $language
+     * @param string|null $language
      * @return string
      */
     public function translate(string $variable, ?string $language = null): string
@@ -53,7 +53,7 @@ class Translator
         $englishTexts = include $this->translationDir . 'english.php';
         $languageTexts = include $this->translationDir . $language . '.php';
         
-        return $languageTexts[$variable] ?? $englishTexts[$variable];
+        return $languageTexts[$variable] ?? $englishTexts[$variable] ?? '';
     }
     
     /**

@@ -55,12 +55,20 @@
     border: 0.25rem solid #aaa;
 }
 
+.team-a-name {
+    color: #fcc803;
+}
+
+.team-b-name {
+    color: #2b94ff;
+}
+
 .banned-by-team-a, .picked-by-team-a {
-    border: 0.25rem solid #f87070;
+    border: 0.25rem solid #fcc803;
 }
 
 .banned-by-team-b, .picked-by-team-b {
-    border: 0.25rem solid #75f870;
+    border: 0.25rem solid #2b94ff;
 }
 
 .pick-grid .overlay {

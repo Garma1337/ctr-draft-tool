@@ -143,9 +143,9 @@ $(document).ready(function() {
 
     $('.pick-grid img').each(function(index) {
         if ((index + 1) % 4 === 0 || (index + 1) % 4 === 1) {
-            $(this).addClass('picked-by-team-a').removeClass('placeholder');
-        } else {
             $(this).addClass('picked-by-team-b').removeClass('placeholder');
+        } else {
+            $(this).addClass('picked-by-team-a').removeClass('placeholder');
         }
     });
 

@@ -4,7 +4,7 @@
     {/if}
 
     {if (!$accessKey || ($teamId && $teamId !== $currentTurn)) && $currentPhase !== 'done'}
-        <meta http-equiv="refresh" content="5">
+        <meta http-equiv="refresh" content="30">
     {/if}
 
     <div class="info-container">
@@ -17,22 +17,26 @@
         {if $currentPhase !== 'done' && $teamId}
             <div class="text-center turn-alert">
                 {if $teamId === $currentTurn}
-                    {if $currentPhase === 'ban'}
-                        {$translator->translate('action.show.yourTurnToBan')}
-                    {else}
-                        {$translator->translate('action.show.yourTurnToPick')}
-                    {/if}
+                    <div class="alert alert-success" role="alert">
+                        {if $currentPhase === 'ban'}
+                            {$translator->translate('action.show.yourTurnToBan')}
+                        {else}
+                            {$translator->translate('action.show.yourTurnToPick')}
+                        {/if}
 
-                    {if $draft.timeout > 0}
-                        {capture assign=replacement}<span id="draftTimeoutTimer">{$draft.timeout}</span>{/capture}
-                        {$translator->translate('action.show.timeLeft')|replace:'#1':$replacement nofilter}
-                    {/if}
+                        {if $draft.timeout > 0}
+                            {capture assign=replacement}<span id="draftTimeoutTimer">{$draft.timeout}</span>{/capture}
+                            {$translator->translate('action.show.timeLeft')|replace:'#1':$replacement nofilter}
+                        {/if}
+                    </div>
                 {else}
-                    {if $currentPhase === 'ban'}
-                        {$translator->translate('action.show.enemyTurnToBan')}
-                    {else}
-                        {$translator->translate('action.show.enemyTurnToPick')}
-                    {/if}
+                    <div class="alert alert-primary" role="alert">
+                        {if $currentPhase === 'ban'}
+                            {$translator->translate('action.show.enemyTurnToBan')}
+                        {else}
+                            {$translator->translate('action.show.enemyTurnToPick')}
+                        {/if}
+                    </div>
                 {/if}
             </div>
         {/if}

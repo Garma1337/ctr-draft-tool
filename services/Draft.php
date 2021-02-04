@@ -466,9 +466,7 @@ class Draft
             }
         }
         
-        if ($params['bans'] <= 0) {
-            $errors[] = App::translator()->translate('action.createDraft.numberBansMissing');
-        } else {
+        if ($params['bans'] > 0) {
             if (!$params['allowTrackRepeats']) {
                 $limit = ($params['mode'] === self::MODE_RACE ? 15 : 5);
                 

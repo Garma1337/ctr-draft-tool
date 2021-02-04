@@ -40,6 +40,6 @@
 
     {include file='_draftListPagination.tpl'}
 {else}
-    <div class="alert alert-primary">There are currently no drafts. Why don't you <a href="{$router->generateUrl('new')}">create one</a>?</div>
+    <div class="alert alert-primary">{$translator->translate('action.draftList.noDraftsNotice')|replace:'#1':$router->generateUrl('new') nofilter}</div>
 {/if}
 
