@@ -149,6 +149,10 @@ class Controller
         $totalDrafts = App::draft()->countDrafts();
         
         $pages = (int) ceil($totalDrafts / $limit);
+        if ($pages <= 0) {
+            $pages = 1;
+        }
+        
         if ($page > $pages) {
             $page = $pages;
         }
